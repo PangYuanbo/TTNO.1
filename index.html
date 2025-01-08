@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TABLE TENNIS NO.1</title>
+    <!-- 引入 Favicon -->
+    <link rel="icon" href="path/to/your/logo.png" type="image/png"> <!-- 添加 favicon -->
+    <!-- 引入 Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- 引入 Framer Motion -->
+    <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+    <!-- 引入 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 引入 Scriptina 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Scriptina&display=swap" rel="stylesheet">
+    <style>
+        .scrollable {
+            overflow-x: auto;
+            white-space: nowrap;
+            border: 2px solid #4B5563; /* 边框颜色 */
+            border-radius: 0.5rem; /* 圆角 */
+            padding: 1rem; /* 内边距 */
+            background-color: #ffffff; /* 背景颜色 */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* 阴影效果 */
+            max-width: 100%; /* 确保在小屏幕上不超出视口 */
+        }
+
+        /* 隐藏滚动条 */
+        .scrollable::-webkit-scrollbar {
+            display: none; /* Safari 和 Chrome */
+        }
+
+        .scrollable {
+            -ms-overflow-style: none;  /* IE 和 Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .scriptina {
+            font-family: 'Scriptina', cursive; /* 使用 Scriptina 字体 */
+        }
+
+        .social-contact {
+            background-color: #9B0000; /* 更浅的红色背景 */
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+        }
+
+        .header-bg {
+            background-color: #9B0000; /* 更浅的红色 */
+        }
+
+        .social-icon {
+            transition: transform 0.2s; /* 添加过渡效果 */
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1); /* 鼠标悬停时稍微放大 */
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 42.86%; /* 21:9 比例 */
+            overflow: hidden;
+            transition: height 0.3s ease; /* 添加过渡效果 */
+        }
+
+        .video-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease; /* 添加过渡效果 */
+            transform-origin: top right; /* 以右上角为基准缩小 */
+        }
+
+        .content-below {
+            opacity: 0; /* 初始隐藏 */
+            transition: opacity 0.3s ease, margin-top 0.3s ease; /* 添加过渡效果 */
+            margin-top: 0.5rem; /* 减少空白行 */
+        }
+
+        .nav-link {
+            position: relative;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #ffffff;
+            left: 0;
+            bottom: 0;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-link:hover {
+            color: #a0aec0; /* 变为浅灰色 */
+        }
+
+        .nav-container {
+            background-color: #9B0000; /* 使用之前的红色背景 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微阴 */
+        }
+
+        .project-link {
+            position: relative;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            color: #000000; /* 默认黑色 */
+            text-decoration: none;
+            transition: color 0.3s ease;
+            margin-bottom: 1rem; /* 增加下方的空间 */
+        }
+
+        .project-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #000000; /* 默认黑色 */
+            left: 0;
+            bottom: 0;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .project-link:hover {
+            color: #a0aec0; /* 变为浅灰色 */
+        }
+
+        .flex {
+            display: flex;
+            flex-wrap: nowrap; /* 确保子元素不换行 */
+        }
+
+        img {
+            max-width: 100%; /* 确保图片不超出父容器 */
+            height: auto; /* 保持图片比例 */
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900" onload="showProjectDetails('robotic-arm')">
+    <!-- Club 名称 -->
+    <header class="nav-container flex items-center justify-between py-4 px-6">
+        <img src="./images/logos/club_logo.png" alt="Club Logo" class="h-16"> <!-- 增加俱乐部 logo 在左边 -->
+        <h1 class="text-4xl font-bold text-white text-center mx-auto">De Anza TABLE TENNIS NO.1 Club</h1> <!-- 将俱乐部名称字体增大并居中 -->
+        <nav class="flex space-x-6">
+            <a href="#imageGallery" class="nav-link">Image Gallery</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#aboutUs" class="nav-link">About Us</a>
+        </nav>
+    </header>
+
+    <div class="py-8"> <!-- 增加空白部分 -->
+        <!-- 空白部分 -->
+    </div>
+
+    <!-- 宣传视频 -->
+    <section class="video-container" id="videoSection">
+        <video id="promoVideo" class="video-content object-cover" autoplay loop muted preload="none">
+            <source src="./videos/videotest.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+
+    <!-- 使命和目标 -->
+    <section class="py-16 text-center content-below" id="contentBelow">
+        <h2 class="text-3xl font-semibold text-center mb-4">Our Mission and Goals</h2>
+        <p class="text-lg mx-auto w-4/5 leading-relaxed">
+            Our college engineering club exists to inspire, educate, and empower students in the field of engineering. We foster creativity, collaboration, and hands-on learning to help members excel academically, develop leadership skills, and make a positive impact through engineering innovation.
+        </p>
+    </section>
+
+    <!-- 图片库 -->
+    <section id="imageGallery" class="py-8">
+        <h2 class="text-3xl font-semibold text-center mb-4">Image Gallery</h2>
+        <div class="scrollable" onwheel="scrollHorizontally(event)">
+            <div class="flex space-x-2" style="width: 1600px;">
+                <!-- 20个图片，路径为 test.jpeg，4:3 比例 -->
+                <img src="./images/test.jpeg" alt="Image 1" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 2" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 3" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 4" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 5" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 6" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 7" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 8" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 9" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 10" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 11" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 12" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 13" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 14" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 15" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 16" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 17" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 18" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 19" class="h-48 w-64">
+                <img src="./images/test.jpeg" alt="Image 20" class="h-48 w-64">
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目部分 -->
+    <section id="projects" class="py-8">
+        <h2 class="text-3xl font-semibold text-center mb-4">Projects</h2>
+        <div class="flex justify-center space-x-4 overflow-x-auto">
+            <div class="flex space-x-4">
+                <div class="flex items-center space-x-2 cursor-pointer transform transition-transform duration-200 hover:scale-110" onclick="showProjectDetails('robotic-arm')">
+                    <span class="i-robotic-arm"></span>
+                    <span class="project-link">Robotic Arm</span>
+                </div>
+                <div class="flex items-center space-x-2 cursor-pointer transform transition-transform duration-200 hover:scale-110" onclick="showProjectDetails('cnc-router')">
+                    <span class="i-cnc-router"></span>
+                    <span class="project-link">CNC Router</span>
+                </div>
+                <div class="flex items-center space-x-2 cursor-pointer transform transition-transform duration-200 hover:scale-110" onclick="showProjectDetails('rc-gokart')">
+                    <span class="i-rc-gokart"></span>
+                    <span class="project-link">RC GoKart</span>
+                </div>
+                <div class="flex items-center space-x-2 cursor-pointer transform transition-transform duration-200 hover:scale-110" onclick="showProjectDetails('rc-plane')">
+                    <span class="i-rc-plane"></span>
+                    <span class="project-link">RC Plane</span>
+                </div>
+                <div class="flex items-center space-x-2 cursor-pointer transform transition-transform duration-200 hover:scale-110" onclick="showProjectDetails('physics-show')">
+                    <span class="i-physics-show"></span>
+                    <span class="project-link">Physics Show</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目详情 -->
+    <section id="projectDetails" class="py-8 hidden">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex justify-between">
+                <div class="w-1/2">
+                    <h3 id="projectTitle" class="text-2xl font-semibold mb-4"></h3>
+                    <p id="projectDescription" class="text-lg"></p>
+                </div>
+                <div class="w-1/2 text-center">
+                    <h4 class="text-xl font-semibold mb-2">Project Managers</h4>
+                    <div id="projectManagers" class="flex justify-center space-x-4">
+                        <!-- 动态插入项目经理 -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8">
+                <h4 class="text-xl font-semibold mb-2">Project Images</h4>
+                <div id="projectImages" class="flex justify-center space-x-4">
+                    <!-- 动态插入项目图片 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="aboutUs" class="py-8">
+        <h2 class="text-3xl font-semibold text-center mb-4">About Us</h2>
+        
+        <!-- 职位部分 -->
+        <div class="mb-8">
+            <!-- 第一行: Advisors, President 和 Co-President -->
+            <div class="executive-team mb-8">
+                <div class="text-center">
+                    <h4 class="text-2xl font-semibold">Advisors</h4>
+                    <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                    <p class="mt-2">Advisor 1</p>
+                    <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+                <div class="flex justify-center space-x-12">
+                    <div class="text-center">
+                        <h4 class="text-2xl font-semibold">President</h4>
+                        <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                        <p class="mt-2">President 1</p>
+                        <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="text-2xl font-semibold">Co-President</h4>
+                        <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                        <p class="mt-2">Co-President 1</p>
+                        <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第二行: Secretary -->
+            <div class="flex justify-center space-x-12 mb-8">
+                <div class="text-center">
+                    <h4 class="text-2xl font-semibold">Secretary</h4> <!-- 增大字体 -->
+                    <div class="flex justify-center space-x-12">
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Secretary 1</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Secretary 2</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第三行: Treasurer -->
+            <div class="flex justify-center space-x-12 mb-8">
+                <div class="text-center">
+                    <h4 class="text-2xl font-semibold">Treasurer</h4> <!-- 增大字体 -->
+                    <div class="flex justify-center space-x-12">
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Treasurer 1</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Treasurer 2</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 第四行: Media Director -->
+            <div class="flex justify-center space-x-12">
+                <div class="text-center">
+                    <h4 class="text-2xl font-semibold">Media Director</h4> <!-- 增大字体 -->
+                    <div class="flex justify-center space-x-4 flex-wrap">
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Media Director 1</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Media Director 2</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Media Director 3</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Media Director 4</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                            <p class="mt-2">Media Director 5</p>
+                            <a href="#" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- 社交联系方式 -->
+    <section class="py-8 social-contact flex justify-around items-center"> <!-- 使用 justify-around -->
+        <div class="flex flex-col items-start space-y-4"> <!-- 左对齐社交链接 -->
+            <h2 class="text-3xl font-semibold mb-4">Social Contacts</h2>
+            <a href="https://github.com/FH-EngineeringClub" class="flex items-center text-sky-400 social-icon">
+                <i class="fab fa-github mr-2"></i> GitHub
+            </a>
+            <a href="https://www.linkedin.com/company/foothill-engineering-club" class="flex items-center text-sky-400 social-icon">
+                <i class="fab fa-linkedin mr-2"></i> LinkedIn
+            </a>
+            <a href="https://instagram.com/fh_engrclub" class="flex items-center text-sky-400 social-icon">
+                <i class="fab fa-instagram mr-2"></i> Instagram
+            </a>
+            <a href="https://discord.com" class="flex items-center text-sky-400 social-icon">
+                <i class="fab fa-discord mr-2"></i> Discord
+            </a>
+            <a href="mailto:fhengineeringclub@gmail.com" class="flex items-center text-sky-400 social-icon"> <!-- 使用邮件链接 -->
+                <i class="fas fa-envelope mr-2"></i> Email
+            </a>
+        </div>
+        <div class="flex flex-col items-center space-y-4">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 423.47 165.31" class="h-16">
+                <defs>
+                    <style>.cls-1{fill:#fff;}</style>
+                </defs>
+                <title>deanza_logo</title>
+                <polygon class="cls-1" points="14.54 138.62 20.54 132.62 113.54 132.62 113.54 138.62 14.54 138.62"/>
+                <polygon class="cls-1" points="0 149.92 6 143.92 113.5 143.92 113.5 149.92 0 149.92"/>
+                <path class="cls-1" d="M84.62,44.82"/>
+                <path class="cls-1" d="M84.62,44.82"/>
+                <path class="cls-1" d="M77.59,19.41"/>
+                <path class="cls-1" d="M77.59,19.41"/>
+                <path class="cls-1" d="M142.39,24.32c0-4.17.63-10.79-3.93-12.15V11.89h23.91c20.39,0,33.08,11.25,33.08,29.3,0,17.87-13.5,30.38-33.53,30.38H138.46V71.3c4.47-3.08,3.93-7.44,3.93-12.79V24.32Zm9.12,40.84a53.21,53.21,0,0,0,8.53.39c13.32,0,26.71-6.83,26.71-22.52,0-15.87-10.26-25.11-25.19-25.11-2.68,0-7.36-.13-10,0.5V65.16Z"/>
+                <path class="cls-1" d="M254.78,49.17L250.13,62c-1.88,5.08-2.5,7.71,1.79,9.34v0.27H235.47V71.3c5.19-2.63,6.71-7.71,8.67-12.88L259.07,20.6c1.93-4.53,1.18-6.78-.34-8.43V11.89h13.13l18.6,46.53c2.06,5.17,3.67,10.25,8.76,12.88v0.27H280.88V71.3c4.38-2,3.67-3,1.25-9.34l-4.83-12.79H254.78ZM266,19.6L257.1,42.46h17.61Z"/>
+                <path class="cls-1" d="M349.05,71.57h29.66l3.94-11.69S383,58,381.45,59s-2.88,5.8-8,7.5c-6.2,2.06-12.2,1.56-18,1.67l23.7-42.37v-0.3H349.49L345.55,37.2s-0.3,1.87,1.2.87,2.75-6.25,8-7.5a33.9,33.9,0,0,1,13.75-.42l-25,40.63-0.25.8h5.76Z"/>
+                <path class="cls-1" d="M403.86,71.56c-1.42.3-2.36,1.26-9.36,1.19-8.46-.09-14.33-6.39-14.33-14.68,0-8.53,6.58-13.55,13.16-16,0,0,5.17-1.71,14.42-1.21,3.09,0.17,1.75-.25,2-1.5a11.44,11.44,0,0,0,0-3.13c-0.47-4.87-9.44-5.47-12.54-5.39-8.82.23-11.18,5.52-11.93,6.52s-2,1.75-1.25.25,4.5-11.25,6.25-11.75a44.4,44.4,0,0,1,6.84-1.11c9,0,20.92.6,21,12.68v15c0,7.89-1.58,13.89,5.37,14.78l-8.69,5.59c-5.53-1.93-5.31-8.4-5.31-16.39V43.83c-6.22,0-10.68,1.13-13.29,2.35-5.68,2.64-7.55,5.7-7.55,11.79s4.69,8.19,9.13,8.19A13.61,13.61,0,0,0,405.55,64a39,39,0,0,0,4.7-4.69c1.25-1.75-3.07,7-4.5,11.25-0.12.38,0.25,0.25-1.25,1"/>
+                <path class="cls-1" d="M184.93,94.23c-4.92-3.3-10.65-5.63-16.54-5.37-16.14.71-24.45,12.77-24.42,26.43,0,15.53,12.94,27.45,26.71,27.45,6.71,0,13.66-2.79,19.29-6.19h0.27l-3.56,9.68c-4.2,2.07-13.85,2.39-18.5,2.33C150.5,148.32,134,136.13,134,116c0-19.51,14.8-32.67,33.13-32.67a87.26,87.26,0,0,1,18.52,2.11Z"/>
+                <path class="cls-1" d="M190,123.55c-1.14-15.69,8.87-26.29,21.66-26.82a20.17,20.17,0,0,1,15.28,5.56,28.32,28.32,0,0,1,8.64,18.43c1.1,15.07-8.77,26.39-21.29,26.91C202.08,148.13,191,138.41,190,123.55Zm36.77-.26c-0.88-10.14-6.59-22.8-16.09-22.41-8.26.34-12.76,9.13-11.85,20.41,1,11.9,6.84,23.09,15.9,22.72C222.86,143.68,228,138,226.73,123.29Z"/>
+                <path class="cls-1" d="M239.55,82.67c2.06,0,6.7.34,9.53-1h0.27v52.56c0,4.34-.63,10.57,3.31,12.93v0.28H237.91v-0.28c3.84-2.36,3.31-8.59,3.31-12.93V93.13c0-4.34.54-7.82-3.31-10.18V82.67h1.64Z"/>
+                <path class="cls-1" d="M357.5,94.7a6.83,6.83,0,0,1,.81-0.72l7-.08s2-.08,2.1.42-0.28.64-.87,1.63c-0.75,1.25-3.12,4.38-3.75,4.38s-5.87-1.75-7.75-1.5c0,0-2.87-.12-1.87.5s1.67,1.12,1.67,1.12c5.45,3.38,6.76,8.37,6.91,13.19,0.42,14.57-16.33,17.57-27.22,15.13-1.14-.26-2.86,1.56-2.78,3.68,0.14,4,6.17,3,7.24,2.92,20.81-2.29,27,3.44,27,12.81,0,10.69-9.52,17.14-22.5,17.14-12.23,0-21.34-6.31-23.91-13.93-0.7-2.06,4.05-3.69,9.48-7.41,0.78-.54.79-1.25,2.37-0.4-2.08.47-2.41,4.42-2.41,6.88,0,7.94,7.94,10.36,13.35,10.36s15.27-2.37,15.22-12c0-8.32-15.45-7-19.09-6.55l-7.07,1.29c-3.66.09-7.87-5.17-8-8.57-0.05-1.44,7.95-6.07,9.7-7-6-1.32-8.73-7-8.73-14.06,0-11,9.31-16.08,17.88-16.08H351A8.31,8.31,0,0,0,357.5,94.7Zm-14,31.06c5,0,9.15-5,9.15-11.74,0-7.42-5-12.36-10.9-12.36-4.57,0-9.11,3.85-9.11,10.57C332.61,119.76,338.06,125.76,343.46,125.76Z"/>
+            </svg>
+        </a>
+    </div>
+</section>
+
+    <script>
+        function scrollHorizontally(event) {
+            event.preventDefault();
+            const scrollable = event.currentTarget;
+            scrollable.scrollLeft += event.deltaY; // 根据竖向滚动调整横向滚动
+        }
+
+        // 自动滚动功能
+        const gallery = document.getElementById('imageGallery');
+        let scrollAmount = 0;
+
+        function autoScroll() {
+            scrollAmount += 1; // 每次滚动的像素值
+            gallery.scrollLeft += 1; // 向右滚动
+            if (scrollAmount >= gallery.scrollWidth - gallery.clientWidth) {
+                scrollAmount = 0; // 重置滚动量
+                gallery.scrollLeft = 0; // 回到起始位置
+            }
+        }
+
+        setInterval(autoScroll, 30); // 每30毫秒自动滚动
+
+        const projectData = {
+            'robotic-arm': {
+                title: 'Robotic Arm',
+                description: 'Description for Robotic Arm project.',
+                managers: [
+                    { name: 'Manager 1', linkedIn: '#' },
+                    { name: 'Manager 2', linkedIn: '#' }
+                ],
+                images: ['image1.jpg', 'image2.jpg', 'image3.jpg']
+            },
+            'cnc-router': {
+                title: 'CNC Router',
+                description: 'Description for CNC Router project.',
+                managers: [
+                    { name: 'Manager 3', linkedIn: '#' },
+                    { name: 'Manager 4', linkedIn: '#' }
+                ],
+                images: ['image4.jpg', 'image5.jpg', 'image6.jpg']
+            },
+            'rc-gokart': {
+                title: 'RC GoKart',
+                description: 'Description for RC GoKart project.',
+                managers: [
+                    { name: 'Manager 5', linkedIn: '#' },
+                    { name: 'Manager 6', linkedIn: '#' }
+                ],
+                images: ['image7.jpg', 'image8.jpg', 'image9.jpg']
+            },
+            'rc-plane': {
+                title: 'RC Plane',
+                description: 'Description for RC Plane project.',
+                managers: [
+                    { name: 'Manager 7', linkedIn: '#' },
+                    { name: 'Manager 8', linkedIn: '#' }
+                ],
+                images: ['image10.jpg', 'image11.jpg', 'image12.jpg']
+            },
+            'physics-show': {
+                title: 'Physics Show',
+                description: 'Description for Physics Show project.',
+                managers: [
+                    { name: 'Manager 9', linkedIn: '#' },
+                    { name: 'Manager 10', linkedIn: '#' }
+                ],
+                images: ['image13.jpg', 'image14.jpg', 'image15.jpg']
+            }
+        };
+
+        function showProjectDetails(projectId) {
+            const project = projectData[projectId];
+            document.getElementById('projectTitle').innerText = project.title;
+            document.getElementById('projectDescription').innerText = project.description;
+
+            const managersContainer = document.getElementById('projectManagers');
+            managersContainer.innerHTML = '';
+            project.managers.forEach(manager => {
+                const managerElement = document.createElement('div');
+                managerElement.className = 'text-center';
+                managerElement.innerHTML = `
+                    <div class="w-24 h-24 rounded-full bg-gray-700 mx-auto"></div>
+                    <p class="mt-2">${manager.name}</p>
+                    <a href="${manager.linkedIn}" class="text-sky-400 social-icon transform transition-transform duration-200 hover:scale-110"><i class="fab fa-linkedin"></i></a>
+                `;
+                managersContainer.appendChild(managerElement);
+            });
+
+            const imagesContainer = document.getElementById('projectImages');
+            imagesContainer.innerHTML = '';
+            project.images.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image;
+                imgElement.className = 'h-48 w-64';
+                imagesContainer.appendChild(imgElement);
+            });
+
+            document.getElementById('projectDetails').classList.remove('hidden');
+        }
+
+        const video = document.getElementById('promoVideo');
+        const videoSection = document.getElementById('videoSection');
+        const contentBelow = document.getElementById('contentBelow');
+        const maxScale = 1; // 初始比例
+        const minScale = 0.4; // 最小比例
+        const scaleRange = maxScale - minScale;
+        const maxScroll = window.innerHeight; // 最大滚动距离
+
+        function updateContentVisibility() {
+            const isPortrait = window.innerHeight > window.innerWidth;
+            const scrollY = window.scrollY;
+            const scale = Math.max(minScale, maxScale - (scrollY / maxScroll) * scaleRange);
+            video.style.transform = `scale(${scale})`;
+
+            if (isPortrait || scale <= 0.9) {
+                contentBelow.style.opacity = 1;
+                contentBelow.style.marginTop = '0';
+
+                // 显示 Image Gallery 和 Projects
+                document.getElementById('imageGallery').style.opacity = 1;
+                document.getElementById('imageGallery').style.marginTop = '0';
+                document.getElementById('projectDetails').style.opacity = 1;
+                document.getElementById('projectDetails').style.marginTop = '0';
+            } else {
+                contentBelow.style.opacity = 0;
+                contentBelow.style.marginTop = `${videoSection.offsetHeight + 8 * 16}px`;
+
+                // 隐藏 Image Gallery 和 Projects
+                document.getElementById('imageGallery').style.opacity = 0;
+                document.getElementById('imageGallery').style.marginTop = `${videoSection.offsetHeight + 8 * 16}px`;
+                document.getElementById('projectDetails').style.opacity = 0;
+                document.getElementById('projectDetails').style.marginTop = `${videoSection.offsetHeight + 8 * 16}px`;
+            }
+        }
+
+        window.addEventListener('scroll', updateContentVisibility);
+        window.addEventListener('resize', updateContentVisibility); // 当窗口大小改变时更新
+    </script>
+</body>
+</html>
